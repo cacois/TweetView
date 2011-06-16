@@ -1,0 +1,14 @@
+This project is an example Android Twitter feed reader app
+from the Codehenge Android development tutorial:
+
+http://www.codehenge.net/blog/
+
+It is designed as a learning aid, and written for illustrative purposes. 
+
+This project was developed in Eclipse, and includes all associated files.
+
+I've also packaged in the open source simple-json library used in the example.
+
+Feel free to fork, modify, or do anything you want with this code. 
+
+ - cacois
