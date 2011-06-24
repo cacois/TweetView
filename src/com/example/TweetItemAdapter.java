@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 public class TweetItemAdapter extends ArrayAdapter<Tweet> {
@@ -31,6 +32,7 @@ public class TweetItemAdapter extends ArrayAdapter<Tweet> {
 		public TextView username;
 		public TextView message;
 		public ImageView image;
+		public ProgressBar progress; //ADDED
 	}
 
 	@Override
@@ -45,6 +47,7 @@ public class TweetItemAdapter extends ArrayAdapter<Tweet> {
 			holder.username = (TextView) v.findViewById(R.id.username);
 			holder.message = (TextView) v.findViewById(R.id.message);
 			holder.image = (ImageView) v.findViewById(R.id.avatar);
+			holder.progress = (ProgressBar) v.findViewById(R.id.progress_bar);
 			v.setTag(holder);
 		}
 		else
@@ -55,7 +58,7 @@ public class TweetItemAdapter extends ArrayAdapter<Tweet> {
 			holder.username.setText(tweet.username);
 			holder.message.setText(tweet.message);
 			holder.image.setTag(tweet.image_url);
-			imageManager.displayImage(tweet.image_url, activity, holder.image);
+			imageManager.displayImage(tweet.image_url, activity, holder.image, holder.progress); //ADDED
 		}
 		return v;
 	}

@@ -10,7 +10,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 public class ImageManager {
 	
@@ -39,20 +41,25 @@ public class ImageManager {
 			cacheDir.mkdirs();
 	}
 	   
-	public void displayImage(String url, Activity activity, ImageView imageView) {
-		if(imageMap.containsKey(url))
+	public void displayImage(String url, Activity activity, ImageView imageView, ProgressBar progressBar) {
+		if(imageMap.containsKey(url)) {
 			imageView.setImageBitmap(imageMap.get(url));
+			progressBar.setVisibility(View.GONE); //ADDED
+			imageView.setVisibility(View.VISIBLE); //ADDED
+		}
 		else {
-			queueImage(url, activity, imageView);
-			imageView.setImageResource(R.drawable.icon);
+			queueImage(url, activity, imageView, progressBar);
+			//imageView.setImageResource(R.drawable.icon);
+			imageView.setVisibility(View.GONE); //ADDED
+			progressBar.setVisibility(View.VISIBLE); //ADDED
 		}
 	}
 
-	private void queueImage(String url, Activity activity, ImageView imageView) {
+	private void queueImage(String url, Activity activity, ImageView imageView, ProgressBar progressBar) {
 		// This ImageView might have been used for other images, so we clear 
 		// the queue of old tasks before starting.
 		imageQueue.Clean(imageView);
-		ImageRef p=new ImageRef(url, imageView);
+		ImageRef p=new ImageRef(url, imageView, progressBar);
 
 		synchronized(imageQueue.imageRefs) {
 			imageQueue.imageRefs.push(p);
@@ -105,10 +112,12 @@ public class ImageManager {
 	private class ImageRef {
 		public String url;
 		public ImageView imageView;
+		public ProgressBar progressBar;
 		
-		public ImageRef(String u, ImageView i) {
-			url=u;
-			imageView=i;
+		public ImageRef(String u, ImageView i, ProgressBar p) {
+			url = u;
+			imageView = i;
+			progressBar = p;
 		}
 	}
 	
@@ -156,7 +165,7 @@ public class ImageManager {
 						// Make sure we have the right view - thread safety defender
 						if(tag != null && ((String)tag).equals(imageToLoad.url)) {
 							BitmapDisplayer bmpDisplayer = 
-								new BitmapDisplayer(bmp, imageToLoad.imageView);
+								new BitmapDisplayer(bmp, imageToLoad.imageView, imageToLoad.progressBar);
 							
 							Activity a = 
 								(Activity)imageToLoad.imageView.getContext();
@@ -176,17 +185,25 @@ public class ImageManager {
 	private class BitmapDisplayer implements Runnable {
 		Bitmap bitmap;
 		ImageView imageView;
+		ProgressBar progressBar;
 		
-		public BitmapDisplayer(Bitmap b, ImageView i) {
-			bitmap=b;
-			imageView=i;
+		public BitmapDisplayer(Bitmap b, ImageView i, ProgressBar p) {
+			bitmap = b;
+			imageView = i;
+			progressBar = p;
 		}
 		
 		public void run() {
-			if(bitmap != null)
+			if(bitmap != null) {
 				imageView.setImageBitmap(bitmap);
-			else
+				progressBar.setVisibility(View.GONE); //ADDED
+				imageView.setVisibility(View.VISIBLE); //ADDED
+			}
+			else {
 				imageView.setImageResource(R.drawable.icon);
+				imageView.setVisibility(View.GONE); //ADDED
+				progressBar.setVisibility(View.VISIBLE); //ADDED
+			}
 		}
 	}
 }
