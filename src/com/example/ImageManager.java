@@ -200,7 +200,6 @@ public class ImageManager {
 				imageView.setVisibility(View.VISIBLE); //ADDED
 			}
 			else {
-				imageView.setImageResource(R.drawable.icon);
 				imageView.setVisibility(View.GONE); //ADDED
 				progressBar.setVisibility(View.VISIBLE); //ADDED
 			}

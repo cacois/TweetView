@@ -7,15 +7,21 @@
 	android:paddingTop="5px" 
 	android:paddingLeft="5px">
 	
-	<ImageView
+    <RelativeLayout
+    	android:layout_width="wrap_content"
+	    android:layout_height="fill_parent">
+	    
+	    <ImageView
+	    android:layout_centerVertical="true"
         android:id="@+id/avatar"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
         android:layout_marginRight="6dip"
-        android:src="@drawable/icon" 
         android:visibility="gone" />
-    <ProgressBar
-    	android:id="@+id/progress_bar"
+	    
+        <ProgressBar
+        android:layout_centerVertical="true"
+    	android:id="@+id/progress_bar" 	
 		android:layout_width="wrap_content" 
 		android:layout_height="wrap_content"
 		android:maxWidth="30dip"
@@ -24,6 +30,7 @@
 		android:minHeight="30dip"
         android:layout_marginRight="6dip"
 		android:indeterminate="true" />
+	</RelativeLayout>
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="0dip"
