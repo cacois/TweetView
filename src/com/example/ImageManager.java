@@ -2,6 +2,7 @@ package com.example;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.lang.ref.SoftReference;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Stack;
@@ -14,9 +15,7 @@ import android.widget.ImageView;
 
 public class ImageManager {
 	
-	// Just using a hashmap for the cache. SoftReferences would 
-	// be better, to avoid potential OutOfMemory exceptions
-	private HashMap<String, Bitmap> imageMap = new HashMap<String, Bitmap>();
+	private HashMap<String, SoftReference<Bitmap>> imageMap = new HashMap<String, SoftReference<Bitmap>>();
 	
 	private File cacheDir;
 	private ImageQueue imageQueue = new ImageQueue();
@@ -41,7 +40,7 @@ public class ImageManager {
 	   
 	public void displayImage(String url, Activity activity, ImageView imageView) {
 		if(imageMap.containsKey(url))
-			imageView.setImageBitmap(imageMap.get(url));
+			imageView.setImageBitmap(imageMap.get(url).get());
 		else {
 			queueImage(url, activity, imageView);
 			imageView.setImageResource(R.drawable.icon);
@@ -150,7 +149,7 @@ public class ImageManager {
 						}
 						
 						Bitmap bmp = getBitmap(imageToLoad.url);
-						imageMap.put(imageToLoad.url, bmp);
+						imageMap.put(imageToLoad.url, new SoftReference<Bitmap>(bmp));
 						Object tag = imageToLoad.imageView.getTag();
 						
 						// Make sure we have the right view - thread safety defender
