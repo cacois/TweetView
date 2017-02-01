@@ -10,4 +10,4 @@ It is designed as a learning aid, and written for illustrative purposes. This pr
 This code is free as in both speech and beer. Feel free to fork, modify, or do anything you want with this code. 
 
 
-[![Codehenge](http://codehenge.net/blog/wp-content/uploads/2012/09/xcodehenge-header.png.pagespeed.ic.M0gRSolIa5.png)](http://www.codehenge.net)
+[Associated Blog Post](http://www.codehenge.net/2011/06/android-development-tutorial-asynchronous-lazy-loading-and-caching-of-listview-images/)
